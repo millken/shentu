@@ -21,18 +21,35 @@ function main(player, item)
 	local min_intimacy = math.min(intimacy, spouse_intimacy)
 
 	if distance <= require_distance then
-		lualib:AddBuff(player, "同心疗伤药", 2)
-		lualib:AddBuff(spouse, "同心疗伤药", 2)
+		lualib:AddBuff(player, "同心疗伤药", 5)
+		lualib:AddBuff(spouse, "同心疗伤药", 5)
 		if min_intimacy >= 131420 then
+			lualib:AddBuff(player, "同心疗伤药131420", 60)
+			lualib:AddBuff(spouse, "同心疗伤药131420", 60)
+		elseif min_intimacy >= 52013 then
+			lualib:AddBuff(player, "同心疗伤药52013", 60)
+			lualib:AddBuff(spouse, "同心疗伤药52013", 60)
 		elseif min_intimacy >= 9999 then
+			lualib:AddBuff(player, "同心疗伤药9999", 60)
+			lualib:AddBuff(spouse, "同心疗伤药9999", 60)
 		elseif min_intimacy >= 1314 then
+			lualib:AddBuff(player, "同心疗伤药1314", 60)
+			lualib:AddBuff(spouse, "同心疗伤药1314", 60)
 		elseif min_intimacy >= 520  then
+			lualib:AddBuff(player, "同心疗伤药520", 60)
+			lualib:AddBuff(spouse, "同心疗伤药520", 60)
+			--lualib:SysMsg_SendWarnMsg(player, "最小亲密度" .. min_intimacy)
 		elseif min_intimacy >= 188  then
+			lualib:AddBuff(player, "同心疗伤药188", 60)
+			lualib:AddBuff(spouse, "同心疗伤药188", 60)
+		else
+			lualib:AddBuff(player, "同心疗伤药0", 60)
+			lualib:AddBuff(spouse, "同心疗伤药0", 60)
 		end
  
 		return true
 	else
-		lualib:SysMsg_SendWarnMsg(player, "你的配偶离你距离过远，无法使用同心疗伤药！")
+		lualib:SysMsg_SendWarnMsg(player, "a你的配偶离你距离过远，无法使用同心疗伤药！")
 		return false
 	end
 
