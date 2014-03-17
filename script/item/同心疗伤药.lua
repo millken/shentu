@@ -23,15 +23,15 @@ function main(player, item)
 	if distance <= require_distance then
 		lualib:AddBuff(player, "同心疗伤药", 5)
 		lualib:AddBuff(spouse, "同心疗伤药", 5)
-		if min_intimacy >= 131420 then
-			lualib:AddBuff(player, "同心疗伤药131420", 60)
-			lualib:AddBuff(spouse, "同心疗伤药131420", 60)
-		elseif min_intimacy >= 52013 then
-			lualib:AddBuff(player, "同心疗伤药52013", 60)
-			lualib:AddBuff(spouse, "同心疗伤药52013", 60)
+		if min_intimacy >= 19999 then
+			lualib:AddBuff(player, "同心疗伤药19999", 60)
+			lualib:AddBuff(spouse, "同心疗伤药19999", 60)
 		elseif min_intimacy >= 9999 then
 			lualib:AddBuff(player, "同心疗伤药9999", 60)
 			lualib:AddBuff(spouse, "同心疗伤药9999", 60)
+		elseif min_intimacy >= 5202 then
+			lualib:AddBuff(player, "同心疗伤药5202", 60)
+			lualib:AddBuff(spouse, "同心疗伤药5202", 60)
 		elseif min_intimacy >= 1314 then
 			lualib:AddBuff(player, "同心疗伤药1314", 60)
 			lualib:AddBuff(spouse, "同心疗伤药1314", 60)

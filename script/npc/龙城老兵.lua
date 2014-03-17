@@ -318,7 +318,7 @@ function mvtx(npc, tierid, param1, param2, param3)
 end
 function anquan(npc,player)
 	msg = "我可以将你免费传送到附近的城市\n \n"
-	msg = msg.."<@MapMoveXYA#龙城#236#232#3 *01*土城>         <@MapMoveXYA#巫山城#237#303#3 *01*比齐城>         <@MapMoveXYA#东临城#330#300#3 *01*东临城>         <@MapMoveXYA#巫山城#237#303#3 *01*比齐城>\n \n"
+	msg = msg.."<@MapMoveXYA#龙城#236#232#3 *01*土城>         <@MapMoveXYA#巫山城#237#303#3 *01*比齐城>         <@MapMoveXYA#东临城#330#300#3 *01*东临城>         <@MapMoveXYA#新手村#205#276#3 *01*情缘小村>\n \n"
     msg = msg.."　　　　　　　　　　　　　　　　　　      　  #IMAGE<ID:1902700019>#<@main *01* 返回>\n"
 	return msg
 end
@@ -770,4 +770,4 @@ function enter_xiulian(npc, player)
 	end
 	
     return ""
-ends
+end
