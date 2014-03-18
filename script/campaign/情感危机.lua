@@ -26,17 +26,18 @@ function on_end_decl(id, map, times)
 
     times = tonumber(times)
     if times == 0 then
-		local monster = "M_情魔"
-		--用于副本调用结束后，判断怪物，若怪物存在没死，则在副本结束前杀死怪物
-		if lualib:Monster_IsExist(monster) and (not lualib:Monster_IsDie(monster)) then
-			lualib:Monster_Kill(monster)
+		local map_name = "新手村"
+		local map_guid = lualib:Map_GetMapGuid(map_name)
+		local ranges = {0, 235, 206, 6, 6}
+		local monsters = lualib:Map_GetRegionMonstersEx(map_guid, "", ranges, true, true)
+		if #monsters > 0 then 
+			for i = 1 , #monsters do
+			lualib:Monster_Remove(monsters[i])
+			end
 		end
-        --lualib:SysMsg_SendTopMsg(1, "[古墓]已关闭！")
-        --lualib:SysMsg_SendBroadcastMsg("[古墓]已关闭！", "系统通知")
+
 		lualib:SysMsg_SendBoardMsg("0", "[情感危机活动]", "[情感危机活动]已关闭！", 15000)
     else
-        --lualib:SysMsg_SendTopMsg(1, "[古墓]将在"..math.floor(times / 60000).."分钟后关闭！")
-        --lualib:SysMsg_SendBroadcastMsg("[古墓]将在"..math.floor(times / 60000).."分钟后关闭！", "系统通知")
 		lualib:SysMsg_SendBoardMsg("0", "[情感危机活动]", "[情感危机活动]将在"..math.floor(times / 60000).."分钟后关闭！", 15000)
     end
 end
