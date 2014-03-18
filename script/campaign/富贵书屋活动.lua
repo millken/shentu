@@ -14,10 +14,16 @@ function on_start_decl(id, map, times)
     times = tonumber(times)
     if times == 0 then
 		local map_name = "富贵书屋"
-		local map_guid = lualib:Map_GetMapGuid(map_name)
-		lualib:SetInt("0", "scheduled_fgsw_status", 1)
+        local dgn = lualib:Map_CreateDgn(map_name, true, 20)
+        if dgn == "" then
+            lualib:Error("副本：富贵书屋创建失败！")
+            return
+        end
+        lualib:Debug("副本：富贵书屋创建成功！")
+		--local map_guid = lualib:Map_GetMapGuid(map_name)
+		lualib:SetStr("0", "scheduled_fgsw_status", dgn)
 		lualib:SysMsg_SendBoardMsg("0", "[富贵书屋]", "[富贵书屋]已开放！", 15000)
-		lualib:GSRunScript("富贵书屋入场:on_campaign_start", id)
+		lualib:GSRunScript("富贵书屋入场:on_campaign_start", dgn)
 
     else
 
@@ -29,7 +35,7 @@ function on_end_decl(id, map, times)
 
     times = tonumber(times)
     if times == 0 then
-		lualib:SetInt("0", "scheduled_fgsw_status", 0)
+		lualib:SetStr("0", "scheduled_fgsw_status", "")
 		lualib:SysMsg_SendBoardMsg("0", "[富贵书屋]", "[富贵书屋]已关闭！", 15000)
     else
 		lualib:SysMsg_SendBoardMsg("0", "[富贵书屋]", "[富贵书屋]将在"..math.floor(times / 60000).."分钟后关闭！", 15000)
@@ -67,8 +73,9 @@ function Goto(id,player,map)
 	lualib:RunClientScript(mapguid, "mapeffect", "texiao", "100001670#"..player_x.."#"..player_y.."#0#0")
 	lualib:RunClientScript(map, "mapeffect", "texiao", "100001670#"..x.."#"..y.."#0#0")
 	
-	--随机
-	 if not lualib:Player_MapMove(player, map_key_name) then
-		lualib:SysMsg_SendWarnMsg(player, "")
-	 end
+	lualib:Player_SetDgnTicket(player, lualib:GetStr("0", "scheduled_fgsw_status")) 
+    if lualib:Player_EnterDgn(player, "富贵书屋", 0, 0, 0) == false then
+		lualib:NPCTalk(player, "进入失败！")
+		return "进入失败！"
+    end
 end
