@@ -15,15 +15,7 @@ function on_start_decl(id, map, times)
     if times == 0 then
 		local map_name = "富贵书屋"
 		local map_guid = lualib:Map_GetMapGuid(map_name)
-		--[[
-        local dgn_map_guid = lualib:Map_CreateDgn(map_name, true, 60 * 10)
-        if dgn_map_guid == "" then
-            lualib:Error("副本：富贵书屋创建失败！")
-            return
-        end
-        lualib:Debug("副本：富贵书屋创建成功！")
-		lualib:SetStr("0", "scheduled_fgsw_dgn_guid", dgn_map_guid)
-		]]--
+		lualib:SetInt("0", "scheduled_fgsw_status", 1)
 		lualib:SysMsg_SendBoardMsg("0", "[富贵书屋]", "[富贵书屋]已开放！", 15000)
 		lualib:GSRunScript("富贵书屋入场:on_campaign_start", id)
 
@@ -37,7 +29,7 @@ function on_end_decl(id, map, times)
 
     times = tonumber(times)
     if times == 0 then
-		--lualib:SetStr("0", "scheduled_fgsw_dgn_guid", "")
+		lualib:SetInt("0", "scheduled_fgsw_status", 0)
 		lualib:SysMsg_SendBoardMsg("0", "[富贵书屋]", "[富贵书屋]已关闭！", 15000)
     else
 		lualib:SysMsg_SendBoardMsg("0", "[富贵书屋]", "[富贵书屋]将在"..math.floor(times / 60000).."分钟后关闭！", 15000)

@@ -5,7 +5,7 @@ require("system/logic_def_lua")
 
 function on_campaign_start(player, camp_id)
 	--lualib:Debug("富贵书屋入场回调！")
-    if not lualib:VerifyCampLevel(player, camp_id)
+    if not lualib:VerifyCampLevel(player, camp_id) then
 		return "您不符合活动所需等级\n"
     end
 	lualib:SysMsg_SendTriggerMsg(player, "你收到了\"富贵书屋活动入场\"邀请！")

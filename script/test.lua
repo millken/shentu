@@ -4,12 +4,10 @@ local package_path = package.path
 package.path = string.format("%s;%s?.lua;%s?", package_path, lua_path, lua_path)
 
 function main(player_guid, item_guid)
-		local map_name = "新手村"
+		local map_name = "富贵书屋"
 		local map_guid = lualib:Map_GetMapGuid(map_name)
-		--local monster_guid = lualib:MonsterKey2ID("M_情魔")
-		lualib:SysMsg_SendBoardMsg("0", "[情感危机活动]", "[情感危机活动]已开放！", 15000)
-		lualib:GSRunScript("情感危机入场:on_campaign_start", map_guid)
-		
-        lualib:Map_GenSingleMonster(map_guid, 235, 206, 2, 5, "M_情魔", false)
+		lualib:SetInt("0", "scheduled_fgsw_status", 1)
+		lualib:SysMsg_SendBoardMsg("0", "[富贵书屋]", "[富贵书屋]已开放！", 15000)
+		lualib:GSRunScript("富贵书屋入场:on_campaign_start", 50524)
 	return true
 end
