@@ -4,19 +4,14 @@ local package_path = package.path
 package.path = string.format("%s;%s?.lua;%s?", package_path, lua_path, lua_path)
 
 function main(player, item)
-		local map_name = "新手村"
-		local map_guid = lualib:Map_GetMapGuid(map_name)
-		local ranges = {0, 235, 206, 6, 6}
-		--local ranges = {1, 0, 0, 200, 200} 这两种表达所表示的区域相同
-		local monsters = lualib:Map_GetRegionMonstersEx(map_guid, "", ranges, true, true)
-
-		lualib:SysWarnMsg(player, "不存在，抓捕失败！")
-
-		if #monsters > 0 then 
-			for i = 1 , #monsters do
-			lualib:Monster_Remove(monsters[i])
-			end
-		end
+		local map_name = "富贵书屋"
+	local dgn_id = lualib:Map_CreateDgn("富贵书屋", false, 1200)
+	lualib:Player_SetDgnTicket(player, dgn_id) 
+        lualib:Debug("副本：富贵书屋创建成功！")
+		--local map_guid = lualib:Map_GetMapGuid(map_name)
+		lualib:SetStr("0", "scheduled_fgsw_status", dgn)
+		lualib:SysMsg_SendBoardMsg("0", "[富贵书屋]", "[富贵书屋]已开放！", 15000)
+		lualib:GSRunScript("富贵书屋入场:on_campaign_start", dgn_id)
 
 	return true
 end
