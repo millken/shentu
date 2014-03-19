@@ -5,13 +5,16 @@ package.path = string.format("%s;%s?.lua;%s?", package_path, lua_path, lua_path)
 
 function main(player, item)
 		local map_name = "富贵书屋"
-	local dgn_id = lualib:Map_CreateDgn("富贵书屋", false, 1200)
-	lualib:Player_SetDgnTicket(player, dgn_id) 
+        local dgn = lualib:Map_CreateDgn(map_name, true, 23)
+        if dgn == "" then
+            lualib:Error("副本：富贵书屋创建失败！")
+            return false
+        end
         lualib:Debug("副本：富贵书屋创建成功！")
 		--local map_guid = lualib:Map_GetMapGuid(map_name)
 		lualib:SetStr("0", "scheduled_fgsw_status", dgn)
 		lualib:SysMsg_SendBoardMsg("0", "[富贵书屋]", "[富贵书屋]已开放！", 15000)
-		lualib:GSRunScript("富贵书屋入场:on_campaign_start", dgn_id)
+		lualib:GSRunScript("富贵书屋入场:on_campaign_start", dgn)
 
 	return true
 end
