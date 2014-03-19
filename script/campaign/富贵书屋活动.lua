@@ -14,7 +14,7 @@ function on_start_decl(id, map, times)
     times = tonumber(times)
     if times == 0 then
 		local map_name = "富贵书屋"
-        local dgn = lualib:Map_CreateDgn(map_name, true, 20)
+        local dgn = lualib:Map_CreateDgn(map_name, true, 10 * 60)
         if dgn == "" then
             lualib:Error("副本：富贵书屋创建失败！")
             return
