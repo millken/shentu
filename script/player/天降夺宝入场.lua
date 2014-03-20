@@ -24,8 +24,8 @@ function enter(player, dgn)
 	end
 	
 	if lualib:Player_SetDgnTicket(player, dgn) == false then
-		lualib:NPCTalk(player, "进入失败！")
-		return "进入失败！"
+		lualib:NPCTalk(player, "您当前没有门票，无法进入活动地图！")
+		return "您当前没有门票，无法进入活动地图！"
     end
 
     if lualib:Player_EnterDgn(player, dgn_map_name, 0, 0, 0) == false then
