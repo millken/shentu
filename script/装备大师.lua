@@ -142,6 +142,7 @@ function luck(npc,player)
 	msg = msg.."升级幸运+2   #COLORCOLOR_RED#需要3000元宝   成功率  30%#COLOREND#    <@luck_ex *01*「确定升级」>\n"
 	msg = msg.."升级幸运+3   #COLORCOLOR_RED#需要5000元宝   成功率  10%#COLOREND#    <@luck_ex *01*「确定升级」>\n"
     msg = msg.."#COLORCOLOR_BROWN#▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂#COLOREND#\n"
+	msg = msg.."           升级幸运+3项链有机率加1点暴击\n"
 
 	msg = msg.."                                               #OFFSET<X:0,Y:5>##IMAGE1902700019##OFFSET<X:0,Y:-2>#<@main *01*「返回首页」>\n"
 	return msg
@@ -193,6 +194,10 @@ function luck_ex(npc,player)
 
 	if luck_curse == 2 and not luck_rate(10) then
 		return "运气不好,提升幸运失败!\n \n#IMAGE<ID:1902700019>#<@main *01*「返回」>"
+	end
+
+	if luck_curse == 2 then
+		lualib:Equip_SetQualProp(player, item_guid, lualib:GenRandom(1, 5), 49, 1)
 	end
 
 

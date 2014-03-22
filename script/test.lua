@@ -4,17 +4,21 @@ local package_path = package.path
 package.path = string.format("%s;%s?.lua;%s?", package_path, lua_path, lua_path)
 
 function main(player, item)
-		local map_name = "天降夺宝"
-        local dgn = lualib:Map_CreateDgn(map_name, true, 23)
+		local map_name = "外星入侵第一重"
+        local dgn = lualib:Map_CreateDgn(map_name, true, 15 * 60)
         if dgn == "" then
-            lualib:Error("副本：天降夺宝创建失败！")
+            lualib:Error("副本：" .. map_name .. "创建失败！")
             return false
         end
-        lualib:Debug("副本：天降夺宝创建成功！")
+        lualib:Debug("副本：" .. map_name .. "创建成功！")
 		--local map_guid = lualib:Map_GetMapGuid(map_name)
 
-		lualib:SysMsg_SendBoardMsg("0", "[天降夺宝]", "[天降夺宝]已开放！", 15000)
-		lualib:GSRunScript("天降夺宝入场:on_campaign_start", dgn)
+		lualib:SysMsg_SendBoardMsg("0", map_name,map_name, 15000)
+		lualib:Player_SetDgnTicket(player, dgn) 
+		if lualib:Player_EnterDgn(player, map_name, 0, 0, 0) == false then
+			lualib:SysMsg_SendWarnMsg(player, "您没有门票吧")
+			return false
+		end
 
 	return true
 end
