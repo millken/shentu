@@ -47,5 +47,5 @@ function on_map_destroy(map)
 end
 
 function on_enter_map(player)
-    lualib:SysMsg_SendTriggerMsg(player, "欢迎来到外星入侵第一重，这个活动持续时间为2小时！")
+    lualib:SysMsg_SendTriggerMsg(player, "欢迎来到外星入侵第一重，这个活动持续时间为1小时！")
 end

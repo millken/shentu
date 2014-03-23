@@ -9,7 +9,7 @@ function on_create(npc)
 		return false
 	end
 	lualib:Debug("副本：" .. map_name .. "创建成功！")
-
+	lualib:SetStr("0", "wxrq_dgn2", dgn)
 
 end
 
@@ -32,7 +32,7 @@ function leave(player,npc)
 end
 
 function jump(npc, player)
-	lualib:Player_SetDgnTicket(player, dgn) 
+	lualib:Player_SetDgnTicket(player, lualib:GetStr("0", "wxrq_dgn2")) 
 	if lualib:Player_EnterDgn(player, map_name, 0, 0, 0) == false then
 		lualib:SysMsg_SendWarnMsg(player, "您不能进入" .. map_name .. "！！！")
 		return false

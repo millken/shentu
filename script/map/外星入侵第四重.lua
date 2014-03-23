@@ -32,7 +32,8 @@ end
 
 function on_map_timer_check(map)
 	if lualib:Map_GetMonsterCount(map, "", true, true) == 0 then
-		lualib:SysMsg_SendTriggerMsg(player, "恭喜完成所有任务")
+		lualib:SysMsg_SendMapMsg(map, "恭喜完成所有任务")
+
 	end
 end
 

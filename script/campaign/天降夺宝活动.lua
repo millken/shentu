@@ -7,6 +7,9 @@
 
 --------------------------------------------------------------------------------
 function on_start(id, map)
+	local a = lualib:GetAllTime()
+	local timeStr = lualib:Time2Str("%Y-%m-%d %H:%M", a)
+	lualib:Debug("天降夺宝on_start:" .. timeStr)
 end
 
 function on_start_decl(id, map, times)
@@ -19,10 +22,10 @@ function on_start_decl(id, map, times)
             return
         end
         lualib:Debug("副本：天降夺宝创建成功！")
+		local a = lualib:GetAllTime()
+		local timeStr = lualib:Time2Str("%Y-%m-%d %H:%M", a)
+		lualib:Debug("天降夺宝on_start_decl:" .. timeStr)
 		lualib:SetStr("0", "scheduled_tjdb_dgn", dgn)
-		lualib:SetInt("0", "scheduled_tjdb_id", 1)
-		gen_items()
-		lualib:AddTimerEx(map, 7041, 180000, 3, "gen_items", "")
 		lualib:SysMsg_SendBoardMsg("0", "[天降夺宝]", "[天降夺宝]已开放！", 15000)
 		lualib:GSRunScript("天降夺宝入场:on_campaign_start", dgn)
 
@@ -32,54 +35,6 @@ function on_start_decl(id, map, times)
     end
 end
 
-function gen_items()
-	local items = {
-		{
-			{"5元宝", 50},
-			{"10元宝", 20},
-			{"100元宝", 5},
-		},
-		{
-			{"10元宝", 50},
-			{"开光印", 5},
-			{"灵元珠", 5},
-		},
-		{
-			{"10元宝", 50},
-			{"圣战戒指", 1},
-			{"圣战项链", 1},
-			{"圣战头", 1},
-			{"圣战手镯", 1},
-			{"圣战腰带", 1},
-			{"圣战靴子", 1},
-			{"天尊戒指", 1},
-			{"天尊手镯", 1},
-			{"天尊项链", 1},
-			{"天尊头盔", 1},
-			{"天尊道靴", 1},
-			{"天尊腰带", 1},
-			{"法神魔戒", 1},
-			{"法神手镯", 1},
-			{"法神之坠", 1},
-			{"法神头盔", 1},
-			{"法神魔靴", 1},
-			{"法神腰带", 1},
-		},
-	}
-	local map_name = "天降夺宝"
-	local map_guid = lualib:Map_GetMapGuid(map_name)
-	--for i = 1, #items do
-		local i = lualib:GetInt("0", "scheduled_tjdb_id")
-		for j = 1, #items[i] do
-			for k = 1, tonumber(items[i][j][2]) do
-				local tPos = lualib:MapRndPos("首饰店")--这里不能取副本的名字
-				lualib:Map_GenItem(lualib:GetStr("0", "scheduled_tjdb_dgn"), tPos["x"], tPos["y"], items[i][j][1], 1, true, 3)
-			end
-		end
-		lualib:SetInt("0", "scheduled_tjdb_id", i + 1)
-	--end
-
-end
 
 function on_end_decl(id, map, times)
 
@@ -124,9 +79,15 @@ function Goto(id,player,map)
 	lualib:RunClientScript(mapguid, "mapeffect", "texiao", "100001670#"..player_x.."#"..player_y.."#0#0")
 	lualib:RunClientScript(map, "mapeffect", "texiao", "100001670#"..x.."#"..y.."#0#0")
 	
-	lualib:Player_SetDgnTicket(player, lualib:GetStr("0", "scheduled_tjdb_dgn")) 
-    if lualib:Player_EnterDgn(player, map_key_name, 0, 0, 0) == false then
-		lualib:SysMsg_SendWarnMsg(player, "您没有门票吧")
+	if lualib:GetStr("0", "scheduled_tjdb_dgn") == "" then 
+		lualib:SysMsg_SendWarnMsg(player, "活动还没真正开始，不能传送到[" .. map_key_name .. "]")
+		lualib:Player_MapMoveXY(player,"龙城", x, y, r)
 		return false
-    end
+	else
+		lualib:Player_SetDgnTicket(player, lualib:GetStr("0", "scheduled_tjdb_dgn")) 
+		if lualib:Player_EnterDgn(player, map_key_name, 0, 0, 0) == false then
+			lualib:SysMsg_SendWarnMsg(player, "您没有门票吧")
+			return false
+		end
+	end
 end
