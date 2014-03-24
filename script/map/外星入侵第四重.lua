@@ -27,7 +27,7 @@ function on_map_create(map)
     end
 
     lualib:AddTrigger(map, lua_trigger_enter_map, "on_enter_map")
-	lualib:AddTimerEx(map, 7042, 1000, -1, "on_map_timer_check", "")
+	lualib:AddTimerEx(map, 7042, 1000, -1, "on_map_timer_check", map)
 end
 
 function on_map_timer_check(map)
@@ -44,5 +44,5 @@ function on_map_destroy(map)
 end
 
 function on_enter_map(player)
-    lualib:SysMsg_SendTriggerMsg(player, "欢迎来到" .. map_name .. "，这个活动持续时间为2小时！")
+    lualib:SysMsg_SendTriggerMsg(player, "欢迎来到" .. map_name .. "，这个活动持续时间为1小时！")
 end

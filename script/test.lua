@@ -5,16 +5,23 @@ package.path = string.format("%s;%s?.lua;%s?", package_path, lua_path, lua_path)
 
 function main(player, item)
 		local map_name = "外星入侵第一重"
-        local dgn = lualib:Map_CreateDgn(map_name, true, 15 * 60)
+        local dgn = lualib:Map_CreateDgn(map_name, true, 60 * 60)
         if dgn == "" then
             lualib:Error("副本：" .. map_name .. "创建失败！")
             return false
         end
         lualib:Debug("副本：" .. map_name .. "创建成功！")
-		--local map_guid = lualib:Map_GetMapGuid(map_name)
+		lualib:SetStr("0", "scheduled_wxrq1_dgn", dgn)
+
+		dgn = lualib:Map_CreateDgn("外星入侵第二重", true, 60 * 60)
+		lualib:SetStr("0", "scheduled_wxrq2_dgn", dgn)
+		dgn = lualib:Map_CreateDgn("外星入侵第三重", true, 60 * 60)
+		lualib:SetStr("0", "scheduled_wxrq3_dgn", dgn)
+		dgn = lualib:Map_CreateDgn("外星入侵第四重", true, 60 * 60)
+		lualib:SetStr("0", "scheduled_wxrq4_dgn", dgn)
 
 		lualib:SysMsg_SendBoardMsg("0", map_name,map_name, 15000)
-		lualib:Player_SetDgnTicket(player, dgn) 
+		lualib:Player_SetDgnTicket(player, lualib:GetStr("0", "scheduled_wxrq1_dgn"))
 		if lualib:Player_EnterDgn(player, map_name, 0, 0, 0) == false then
 			lualib:SysMsg_SendWarnMsg(player, "您没有门票吧")
 			return false

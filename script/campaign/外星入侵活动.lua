@@ -15,8 +15,15 @@ function on_start_decl(id, map, times)
             return
         end
         lualib:Debug("副本：" .. map_name .. "创建成功！")
+		lualib:SetStr("0", "scheduled_wxrq1_dgn", dgn)
 
-		lualib:SetStr("0", "scheduled_wxrq_dgn", dgn)
+		dgn = lualib:Map_CreateDgn("外星入侵第二重", true, 60 * 60)
+		lualib:SetStr("0", "scheduled_wxrq2_dgn", dgn)
+		dgn = lualib:Map_CreateDgn("外星入侵第三重", true, 60 * 60)
+		lualib:SetStr("0", "scheduled_wxrq3_dgn", dgn)
+		dgn = lualib:Map_CreateDgn("外星入侵第四重", true, 60 * 60)
+		lualib:SetStr("0", "scheduled_wxrq4_dgn", dgn)
+
 		lualib:SysMsg_SendBoardMsg("0", "[" .. map_name .. "]", "[" .. map_name .. "]已开放！请通过土城的npc【外星入侵传送员】进入！", 15000)
 
     else
@@ -30,7 +37,10 @@ function on_end_decl(id, map, times)
 
     times = tonumber(times)
     if times == 0 then
-		lualib:SetStr("0", "scheduled_wxrq_dgn", "")
+		lualib:SetStr("0", "scheduled_wxrq1_dgn", "")
+		lualib:SetStr("0", "scheduled_wxrq2_dgn", "")
+		lualib:SetStr("0", "scheduled_wxrq3_dgn", "")
+		lualib:SetStr("0", "scheduled_wxrq4_dgn", "")
 		lualib:SysMsg_SendBoardMsg("0", "[" .. map_name .. "]", "[" .. map_name .. "]已关闭！", 15000)
     else
 		lualib:SysMsg_SendBoardMsg("0", "[" .. map_name .. "]", "[" .. map_name .. "]将在"..math.floor(times / 60000).."分钟后关闭！", 15000)
