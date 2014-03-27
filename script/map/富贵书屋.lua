@@ -23,10 +23,10 @@ function on_enter_map(player)
 end
 
 function on_leave_map(player)
-	local map = lualib:MapGuid(player)
-	lualib:Map_DestroyDgn(map)
-		lualib:SetTempInt(player, "m_x", 255)
-		lualib:SetTempInt(player, "m_y", 255)
+	--local map = lualib:MapGuid(player)
+	--lualib:Map_DestroyDgn(map)
+	lualib:SetTempInt(player, "m_x", 255)
+	lualib:SetTempInt(player, "m_y", 255)
 	lualib:DisableTimer(player,7040)
 	return true
 end

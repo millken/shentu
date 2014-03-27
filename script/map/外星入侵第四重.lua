@@ -33,13 +33,13 @@ end
 function on_map_timer_check(map)
 	if lualib:Map_GetMonsterCount(map, "", true, true) == 0 then
 		lualib:SysMsg_SendMapMsg(map, "恭喜完成所有任务")
+		lualib:ClearTimer(map)
 
 	end
 end
 
 function on_map_destroy(map)
     lualib:ClearTrigger(map)
-	lualib:ClearTimer(map)
     lualib:Debug("" .. map_name .. "副本销毁！")
 end
 

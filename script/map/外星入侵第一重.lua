@@ -35,6 +35,7 @@ function on_map_timer_check(map)
              lualib:Error("外星入侵第一重脚本错误，生成NPC"..def_table.npc_name.."失败！")
             return true
         end
+		lualib:ClearTimer(map)
 
         lualib:Debug("外星入侵第一重脚本，生成NPC"..def_table.npc_name.."！")
 	end
@@ -42,7 +43,6 @@ end
 
 function on_map_destroy(map)
     lualib:ClearTrigger(map)
-	lualib:ClearTimer(map)
     lualib:Debug("外星入侵第一重副本销毁！")
 end
 

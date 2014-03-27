@@ -36,13 +36,13 @@ function on_map_timer_check(map)
             return true
         end
 
+		lualib:ClearTimer(map)
         lualib:Debug("" .. map_name .. "脚本，生成NPC"..def_table.npc_name.."！")
 	end
 end
 
 function on_map_destroy(map)
     lualib:ClearTrigger(map)
-	lualib:ClearTimer(map)
     lualib:Debug("" .. map_name .. "副本销毁！")
 end
 
