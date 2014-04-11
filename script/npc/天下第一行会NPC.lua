@@ -92,7 +92,7 @@ function JoinFamily(npc, player)
 	    return "入会等级不够！"
 	end
 	if lualib:AddFamilyMember(player, bidname, "", "") then
-		return "恭喜你已经成功加入到【" .. bidname .. "】"
+		return "恭喜你已经成功加入到行会【" .. bidname .. "】"
 	end
 	return "加入行会失败"
 end
@@ -143,6 +143,10 @@ end
 
 function JoinBidConfirm(id, player, ingot, npc)
 	ingot = tonumber(ingot)
+	if ingot <= getBidIngot() then
+		lualib:NPCTalkEx(npc, player, "竞标价格必须大于当前价格")
+		return 
+	end
 	if not lualib:Player_IsIngotEnough(player,  ingot, false) then
 		lualib:NPCTalkEx(npc, player, "扣除元宝失败，当前元宝不足")
 	    return 

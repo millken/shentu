@@ -10,3 +10,5 @@
 刷怪：@mob 怪物索引名 数量 （例如 @mob 鸡 10）
 刷NPC @n NPC索引名 
 给自己加元宝：@setyb [+-]元宝数 
+修改等级 @setlevel 等级 
+@su 角色名 setlevel 等级
