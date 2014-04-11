@@ -159,9 +159,9 @@ function main(player, item)
 	msg = msg .."#OFFSET<X:5,Y:-10>##COLORCOLOR_YELLOW#嗨~亲爱的[#COLORCOLOR_GREENG#"..player_name.."#COLOREND##COLORCOLOR_YELLOW#],请你听我说：\n#COLOREND#"
 	msg = msg .."#OFFSET<X:5,Y:0>##COLORCOLOR_BROWN#━━━━━━━━━━━━━━━━#COLOREND#\n"
 	msg = msg .. "#IMAGE<ID:1902700033>##COLORCOLOR_BROWN#点击#IMAGE<ID:1902700015>#可将行会成员拉到自己身旁#COLOREND#\n#OFFSET<X:0,Y:5>#"  
-	msg = msg .. "#IMAGE<ID:1902700033>##COLORCOLOR_BROWN#每拉一个人需要消耗两万金币#COLOREND#\n#OFFSET<X:0,Y:5>#"  
+	--msg = msg .. "#IMAGE<ID:1902700033>##COLORCOLOR_BROWN#每拉一个人需要消耗两万金币#COLOREND#\n#OFFSET<X:0,Y:5>#"  
     msg = msg .. "#OFFSET<X:88,Y:0>##IMAGE<ID:1900010084>#"
-	msg = msg .. "#OFFSET<X:-47,Y:-5>#<@chuansong_all".."#"..item.."  *01* 全部传>\n \n"
+	msg = msg .. "#OFFSET<X:-47,Y:-5>#<@chuansong_confirm".."#"..item.."  *01* 全部传>\n \n"
 	for k, v in pairs(Family_team) do
 		local Family_name = lualib:Name(v)
 		local map_name = lualib:Name(lualib:MapGuid(v))
@@ -208,12 +208,63 @@ function chuansong(player, Family_name, v, item, map_name)
 	
 	lualib:RunClientScript(map, "mapeffect", "texiao", "100001261#"..x.."#"..y.."#0#0")
 	
-	lualib:Player_JumpToRole(v, playername)
+	lualib:SysMsg_SendMsgDlg(v, 201404112224, "→→ #COLORCOLOR_RED#" .. playername .. "#COLOREND# 大喊到：#COLORCOLOR_YELLOW#一支穿云箭，千军万马来相见。#COLOREND#\n10秒后失效。\n \n#BUTTON1#我要去#BUTTONEND#                       #BUTTON0#我不去#BUTTONEND#", 10, "MoveConfirm", playername)
 	
 	return ""
 end
 
+function chuansong_confirm(player, item)
+	local Family_team = lualib:GetFamilyMembers(player, true)
+	local playername = lualib:Name(player)
+	local mapself_keyname = lualib:KeyName(lualib:MapGuid(player))
+	local mapself_name = lualib:Name(lualib:MapGuid(player))
+	local itemname	= lualib:Name(item)
+	local itemkeyname = lualib:KeyName(item)
+	
+	local gold = 20000
+	local num = #Family_team - 1
+	local gold_all = tonumber(num) * gold
+	local map = lualib:MapGuid(player)
+	local x = tonumber(lualib:X(player)) + 1
+	local y = tonumber(lualib:Y(player)) - 1
 
+
+	
+	
+	if playername == Family_name then
+		lualib:SysTriggerMsg(player, "不能传送到自己身边！")
+		return ""
+	end
+	
+	for i = 1, #map_hei do
+		if mapself_keyname == map_hei[i] then
+			lualib:SysTriggerMsg(player, "你所在的["..mapself_name.."]地图被禁止召集！")
+			return ""
+		end
+	end
+	--[[
+	if lualib:Player_IsGoldEnough(player, gold_all, false) == false then
+		lualib:SysTriggerMsg(player, "金币不足["..gold_all.."]!不能全部召集！你可以尝试单人召集。")
+		return ""
+	end
+	
+	if lualib:Player_SubGold(player, gold_all, false, "行会召集非绑消耗", player) == false then
+		lualib:SysTriggerMsg(player, "扣除金币失败")
+		return ""
+	end
+	]]--
+	lualib:RunClientScript(map, "mapeffect", "texiao", "100001261#"..x.."#"..y.."#0#0")
+	for k, v in pairs(Family_team) do
+		lualib:SysMsg_SendMsgDlg(v, 201404112224, "→→ #COLORCOLOR_RED#" .. playername .. "#COLOREND# 大喊到：#COLORCOLOR_YELLOW#一支穿云箭，千军万马来相见。#COLOREND#\n10秒后失效。\n \n#BUTTON1#我要去#BUTTONEND#                       #BUTTON0#我不去#BUTTONEND#", 10, "MoveConfirm", playername)
+	end
+	return ""
+end
+
+function MoveConfirm(dlgid, player, btn_id, target_player) 
+	if btn_id == 0 then
+		lualib:Player_JumpToRole(player, target_player)
+	end
+end
 
 function chuansong_all(player, item)
 	local Family_team = lualib:GetFamilyMembers(player, true)
