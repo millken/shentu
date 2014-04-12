@@ -85,7 +85,7 @@ end
 
 function try_the_first(player, skill_id, skill_key)
 	skill_id = tonumber(skill_id)
-	if skill_id == 260 and skill_key == "普通物理攻击" then
+	if  skill_key == "普通物理攻击" then
 		local weapon = lualib:Player_GetItemGuid(player, lua_site_weapon)
 		if lualib:GetInt(weapon, "try_the_first") == 1 then
 			local forge_level = lualib:GetInt(weapon, "forge_level")
