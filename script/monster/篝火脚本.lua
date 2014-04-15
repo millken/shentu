@@ -36,36 +36,25 @@ function on_die(actor, killer)
     local map = lualib:MapGuid(actor)
 	local x = lualib:X(actor)
 	local y = lualib:Y(actor)
-	local npcguid = lualib:Map_GenNpc(map, "篝火", x, y, 0, 4)
-	lualib:SetTempStr(npcguid,"killer", killer)
-	lualib:SetTempInt(killer,"max_lv", exp[lualib:KeyName(actor)][1])
-	lualib:SetTempInt(killer,"add_exp", exp[lualib:KeyName(actor)][2])
-	lualib:SetTempInt(killer, "GH_x", x)
-	lualib:SetTempInt(killer, "GH_y", y)
-	lualib:SetTempInt(killer, "GH", 300)
-	lualib:AddTimer(killer, 201404142314, 1000, 300, "on_timer_check")
-	lualib:RunClientScript(killer, "ItemEffect", "texiao", "200001040#"..x.."#"..y.."#0#300000")
+	local timer_id = lualib:GenTimerId(map)
+	local monster = lualib:KeyName(actor)
+	lualib:AddTimerEx(map, timer_id, 1000, 300, "on_timer_check", monster .. "#" .. x .. "#" .. y)
+	lualib:RunClientScript(map, "ItemEffect", "texiao", "200001040#"..x.."#"..y.."#0#300000")
 
     return
 end
 
-function on_timer_check(player, timer_id)
-	lualib:SetTempInt(player, "GH", lualib:GetTempInt(player, "GH") - 1 )
-	local map = lualib:MapGuid(player)
-	local max_level = lualib:GetTempInt(player,"max_lv")
-	local add_ext = lualib:GetTempInt(player,"add_exp")
-	local pos_x = lualib:GetTempInt(player,"GH_x")
-	local pos_y = lualib:GetTempInt(player,"GH_y")
+function on_timer_check(map, timer_id, monster, x, y)
+	local pos_x = tonumber(x)
+	local pos_y = tonumber(y)
+	local max_level = exp[monster][1]
+	local add_ext = exp[monster][2]
 	local ranges = {0, pos_x, pos_y, 2, 2}
 	local player_t = lualib:Map_GetRegionPlayersEx(map, ranges, true)
+	--lualib:SysMsg_SendBroadcastMsg( monster .. ":" .. x .. "," .. y .. "level=" .. max_level.. "ext:"..add_ext, "debug")
 	for _, v in pairs(player_t) do
 	   if lualib:Level(v) < max_level then
 			lualib:Player_AddExp(v, add_ext, "篝火", v)
 	   end
 	end
-end
-
-function clearNpc() 
-	local map = lualib:MapGuid(npc)
-	lualib:Map_ClearNpc(map, "中秋国庆活动", 232, 224, 0, 4)
 end
