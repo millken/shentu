@@ -8,10 +8,20 @@ function on_start(id, map)
 	local strFamily = ""
 	for _, v in pairs(familys) do
 		strFamily = strFamily .. v .. "&"
+	lualib:SysPromptMsg(player, "神歌城行会攻城战开始")
 	end
 	strFamily = string.sub(strFamily, 1, -2)
 	lualib:StartCastleWarEx("神歌城", strFamily, warTime, 7200)
-	lualib:SysMsg_SendTopMsg(1, "神歌城行会攻城战开始")
+	lualib:SysMsg_SendBroadcastMsg("神歌城行会攻城战开始", "")
+	lualib:AddTimerEx(map,201404131702,7203 * 1000, 1,"hanghui_jiangli", "")
+end
+
+function hanghui_jiangli(map)
+	local family = lualib:GetCastleOwnFamily("神歌城")
+	local player = lualib:GetFamilyLeader(family)
+	if player ~= "" then 
+		lualib:Player_AddIngot(player, 30000, false, "加元宝：行会攻城", player)
+	end
 end
 
 --开始宣告
@@ -22,4 +32,5 @@ end
 
 function on_end_decl(id, map, times)
     times = tonumber(times)
+
 end
