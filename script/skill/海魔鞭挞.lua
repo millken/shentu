@@ -29,30 +29,10 @@ function zhixing(a1, a2,actor,skillid)
 			mubiao_table = lualib:Map_GetRegionPlayers(map, x2, y2, 0, true)	
 			for i = 1, #mubiao_table do
 				local buff1 = lualib:AddBuff(mubiao_table[i], "脚本定身", 3)
-				local wufangshangxian = lualib:PhyDef(mubiao_table[i], true)
-				local wufangxiaxian = lualib:PhyDef(mubiao_table[i], false)
+				local wufangshangxian = 800
+				local wufangxiaxian = 600
 				local wufang = lualib:GenRandom(wufangxiaxian, wufangshangxian)
-				local job = lualib:Job(mubiao_table[i])
-				if job == 1 or job == 3 then
-					local CostHp = 100 - wufang
-					local buff = lualib:AddBuff2(mubiao_table[i], actor, "脚本减血", "海魔鞭挞", 0, -CostHp )
-				elseif job == 2 then
-					local buffmtable = {"减免盾1级", "减免盾2级", "减免盾3级", "减免盾4级",}
-					local buffxiaoguo = {0.85, 0.7, 0.55, 0.4,}
-					local buffxiaoguo1 = 0
-					for i1 = 1,#buffmtable do
-						if lualib:HasBuff(mubiao_table[i], buffmtable[i1]) == true then
-							buffxiaoguo1 = buffxiaoguo[i1]
-						end
-					end
-					if buffxiaoguo1 > 0 then
-						local CostHp = (100 - wufang)* buffxiaoguo1
-						local buff = lualib:AddBuff2(mubiao_table[i], actor, "脚本减血", "海魔鞭挞", 0, -CostHp )
-					else
-						local CostHp = 100 - wufang
-						local buff = lualib:AddBuff2(mubiao_table[i], actor, "脚本减血", "海魔鞭挞", 0, -CostHp )
-					end
-				end
+				local buff = lualib:AddBuff2(mubiao_table[i], actor, "脚本减血", "海魔鞭挞", 0, -wufang )
 			end
 		end
 	end

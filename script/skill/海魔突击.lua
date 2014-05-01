@@ -32,30 +32,10 @@ function zhixing(a1, a2, actor, skillid)
 	
 	if skill_id == 33008 then
 		for i = 1,  #player_table do
-			local wufangshangxian = lualib:PhyDef(player_table[i],  true)
-			local wufangxiaxian = lualib:PhyDef(player_table[i],  false)
-			local wufang = lualib:GenRandom(wufangxiaxian,  wufangshangxian)
-			local job = lualib:Job(player_table[i])
-			if job == 1 or job == 3 then
-				local CostHp = 120 - wufang
-				local buff = lualib:AddBuff2(player_table[i], actor, "脚本减血", "海魔突击", 0, -CostHp )
-			elseif job == 2 then
-					local buffmtable = {"减免盾1级",  "减免盾2级",  "减免盾3级",  "减免盾4级", }
-					local buffxiaoguo = {0.85,  0.7,  0.55,  0.4, }
-					local buffxiaoguo1 = 0
-					for i1 = 1, #buffmtable do
-						if lualib:HasBuff(player_table[i],  buffmtable[i1]) == true then
-							buffxiaoguo1 = buffxiaoguo[i1]
-						end
-					end
-					if buffxiaoguo1 > 0 then
-							local CostHp = (100 - wufang)* buffxiaoguo1
-							local buff = lualib:AddBuff2(player_table[i], actor, "脚本减血", "海魔突击", 0, -CostHp )
-					else
-							local CostHp = 100 - wufang
-							local buff = lualib:AddBuff2(player_table[i], actor, "脚本减血", "海魔突击", 0, -CostHp )
-					end
-			end
+			local wufangshangxian = 1000
+			local wufangxiaxian = 800
+			local wufang = lualib:GenRandom(wufangxiaxian, wufangshangxian)
+			local buff = lualib:AddBuff2(player_table[i], actor, "脚本减血", "海魔突击", 0, -wufang )
 		end
 	end
 end
